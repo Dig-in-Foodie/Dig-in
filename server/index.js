@@ -105,5 +105,75 @@ app.post("/register", async(req,res,next)=>{
   }
 })
 
+//route that will log out from navbar
+app.get('/logout',async(req,res,next)=>{
+    try{
+        req.user = null
+        res.clearCookie('token')
+        res.redirect('/')
+    }catch(error){
+        next(error)
+    }
+})
 
+//create users as administrator.
+// app.post('/users', setUser, admin, async (req, res, next) => {
+//     try {
+//       const {username, password,isAdmin} = req.body;
+//       const hash = await bcrypt.hash(password, 10)
+//       const user = await User.create({username, password: hash, isAdmin:true})
+//       const token = jwt.sign({username, id:user.id, isAdmin: user.isAdmin}, JWT_SECRET)
+//       res.send({message: "user foodiemunchinadmin registered ", token: token})
+  
+//     } catch (error) {
+//       console.error(error);
+//       next(error)
+//     }
+//   });
 
+//get all posts in dashboard once logged in 
+app.get('/posts', setUser, async(req,res,next)=>{
+    try{
+        if(req.user){
+            const posts = await Post.findAll()
+            const userPosts = await User.findByPk(req.user.id)
+            res.status(200).json(posts)
+        }else{
+            res.sendStatus(401)
+        }
+    }catch{
+        next(error)
+    }
+})
+//get the post you created(by id)
+
+app.get('/posts/:id',setUser, async(req,res,next)=>{
+    try{
+        const post = await Post.findByPk(req.params.id)
+        if(!req.user){
+            res.sendStatus(401)
+        }else if(req.user.id !== post.userId){
+            res.sendStatus(401)
+        }else{
+            res.json({title: post.title, image: post.image, country: post.country, city: post.city, description: post.description})
+        }
+    }catch(error){
+        next(error)
+    }
+})
+
+//creating a foodie post 
+
+app.post('/posts',setUser, async(req,res,next)=>{
+    try{
+        if(!req.user){
+            res.send(401)
+        }else{
+            const {title,image,country,city,description}= req.body
+            const post = await Post.create({userId: req.user.id, title,image,country,city,description})
+            res.sendStatus(201)({title: post.title, image: post.image, country: post.country, city: post.city, description: post.description})
+        }
+    }catch(error){
+        next(error)
+    }
+})
