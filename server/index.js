@@ -177,3 +177,55 @@ app.post('/posts',setUser, async(req,res,next)=>{
         next(error)
     }
 })
+
+//delete post only if you are user
+app.delete('/posts/:id', setUser,async(req,res,next)=>{
+    try{
+        const post = await Post.findByPk(req.params.id)
+        if(!req.user){
+            res.sendStatus(401)
+        }else if(req.user.id !== post.userId && !req.user.isAdmin){
+            res.sendStatus(401)
+        }else{
+            await Post.destroy()
+            res.sendStatus(204)
+        }
+    }catch(error){
+        next(error)
+    }
+})
+//update post only if you are user
+app.put('/posts/:id', setUser, async(req,res,next)=>{
+    try{
+        if(!req.user){
+            res.sendStatus(401)
+            }else{
+                    const {title,image,country,city,description} = req.body;
+                    const post = await Post.findByPk(req.params.id)
+                    if(!post){
+                        res.sendStatus(404)
+                    }else if(post.userId!== req.user.id && !req.user.isAdmin){
+                        res.sendStatus(403)
+            }else{
+                await post.update({title,image,country,city,description})
+                res.sendStatus(200).json({
+                    title: post.title,
+                    image: post.image,
+                    country: post.country,
+                    city: post.city,
+                    description: post.description
+                })
+            }
+            
+        }
+            
+    }catch(error){
+        next(error)
+    }
+})
+
+
+app.listen(PORT, () =>{
+    sequelize.sync({force: false})
+    console.log(`Food is ready ! at http://localhost:${PORT}`);
+});
