@@ -1,8 +1,12 @@
+const {fetch} = require('whatwg-fetch');
+global.fetch = fetch;
+import React from 'react';
+import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import App from './App';
+import { App } from './App';
 
-test('renders learn react link', () => {
+it('should render', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+
+  expect(screen.getByText('Dig into this foodie')).toBeInTheDocument();
 });
