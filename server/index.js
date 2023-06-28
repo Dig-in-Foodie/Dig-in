@@ -205,7 +205,7 @@ app.delete('/posts/:id', setUser,async(req,res,next)=>{
         }else if(req.user.id !== post.userId && !req.user.isAdmin){
             res.sendStatus(401)
         }else{
-            await Post.destroy()
+            await post.destroy()
             res.sendStatus(204)
         }
     }catch(error){
