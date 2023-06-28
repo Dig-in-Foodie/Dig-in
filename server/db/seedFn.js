@@ -1,6 +1,4 @@
-const {sequelize}= require('./db')
-const {Post} = require('./Post')
-const {User} = require('./User')
+const {sequelize,Post,User}= require('./index')
 const {posts}= require('./seedData')
 const {users} = require('./seedData')
 const bcrypt = require('bcrypt')
@@ -14,6 +12,9 @@ const seed = async ()=>{
         const hash = await bcrypt.hash(user.password,10)
         await User.create({username: user.username, password: hash, isAdmin: user.isAdmin})
     }
+    // const posts1= await Post.findAll()
+    // const users2 = await User.findAll()
+    // posts1[0].setUser(users2[0])
     
 }
 
