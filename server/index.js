@@ -196,7 +196,7 @@ app.post('/posts',setUser, async(req,res,next)=>{
     }
 })
 
-//delete post only if you are user
+//delete post only if you are user //fix bug
 app.delete('/posts/:id', setUser,async(req,res,next)=>{
     try{
         const post = await Post.findByPk(req.params.id)
