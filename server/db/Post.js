@@ -10,4 +10,4 @@ const Post = sequelize.define('post',{
 
 });
 
-module.exports = {Post}
+module.exports = {Post};
