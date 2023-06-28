@@ -34,13 +34,13 @@ const users =[
 
     {
         username: "Charles",
-        password:"foodielover",
+        password:"foodielover"
         
     },
 
     {
         username: "GloriaFood",
-        password:"foodieheart",
+        password:"foodieheart"
         
     },
 ]

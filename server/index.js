@@ -1,12 +1,13 @@
 const express = require("express")
-const app= express()
+const app = express()
 const {User, Post, sequelize}= require("./db")
 const cors = require("cors")
 require("dotenv").config()
-const bcrypt= require("bcrypt")
-const path= require("path")
-const jwt = require("jsonwebtoken")
 const {JWT_SECRET, PORT} = process.env
+const bcrypt= require("bcrypt")
+const jwt = require("jsonwebtoken")
+const path= require("path")
+
 
 //middleware
 app.use(cors());
@@ -15,11 +16,12 @@ app.use(express.urlencoded({extended:true}));
 
 
 app.get('/' , (req,res)=>{
-    res.send({message: "Hello foodie !"})
+    res.json({message: "Hello foodie !"})
 })
 
 //register form
 app.get('/register', async(req,res,next)=>{
+    
    //add here logic to which page to send in react
 })
 
@@ -30,6 +32,7 @@ app.get('/login', async(req,res,next)=>{
 
 //authorization middleware
 const setUser =(async (req,res,next)=>{
+    const auth = req.header('Authorization')
     if(!auth){
         next()
     }else{
@@ -94,7 +97,7 @@ app.post("/register", async(req,res,next)=>{
                 res.sendStatus(401)
             }else{
               const token= jwt.sign({username, id:foundUser.id, isAdmin: foundUser.isAdmin},JWT_SECRET)
-        res.send({ message: 'Welcome to new bee', token: token})
+        res.send({ message: 'Welcome to Dig in ', token: token})
       
       
       
@@ -117,33 +120,48 @@ app.get('/logout',async(req,res,next)=>{
 })
 
 //create users as administrator.
-// app.post('/users', setUser, admin, async (req, res, next) => {
-//     try {
-//       const {username, password,isAdmin} = req.body;
-//       const hash = await bcrypt.hash(password, 10)
-//       const user = await User.create({username, password: hash, isAdmin:true})
-//       const token = jwt.sign({username, id:user.id, isAdmin: user.isAdmin}, JWT_SECRET)
-//       res.send({message: "user foodiemunchinadmin registered ", token: token})
+app.post('/users', setUser, admin, async (req, res, next) => {
+    try {
+      const {username, password,isAdmin} = req.body;
+      const hash = await bcrypt.hash(password, 10)
+      const user = await User.create({username, password: hash, isAdmin:true})
+      const token = jwt.sign({username, id:user.id, isAdmin: user.isAdmin}, JWT_SECRET)
+      res.send({message: "user foodiemunchinadmin registered ", token: token})
   
-//     } catch (error) {
-//       console.error(error);
-//       next(error)
-//     }
-//   });
+    } catch (error) {
+      console.error(error);
+      next(error)
+    }
+  });
+
+
+  //get all users
+  app.get('/users', setUser, async(req,res, next)=>{
+    const usersall = await User.findAll(); 
+    res.send(usersall)
+}
+)
 
 //get all posts in dashboard once logged in 
 app.get('/posts', setUser, async(req,res,next)=>{
-    try{
-        if(req.user){
-            const posts = await Post.findAll()
-            const userPosts = await User.findByPk(req.user.id)
-            res.status(200).json(posts)
-        }else{
-            res.sendStatus(401)
-        }
-    }catch{
-        next(error)
-    }
+    const postsall = await Post.findAll(); 
+    res.send(postsall)
+//     try{
+       
+//     if(req.user){
+//         const postsLogin = await Post.findAll()
+//         // const postsUser = await User.findByPk(req.user.id);
+//         res.status(200).json(postsLogin)
+        
+        
+//     }else{
+//         res.sendStatus(401)   
+//     }
+    
+// }catch(error){
+//     console.log(error)
+//     next(error)
+// }
 })
 //get the post you created(by id)
 
@@ -169,7 +187,7 @@ app.post('/posts',setUser, async(req,res,next)=>{
         if(!req.user){
             res.send(401)
         }else{
-            const {title,image,country,city,description}= req.body
+            const {title, image , country, city, description}= req.body
             const post = await Post.create({userId: req.user.id, title,image,country,city,description})
             res.sendStatus(201)({title: post.title, image: post.image, country: post.country, city: post.city, description: post.description})
         }
@@ -204,7 +222,7 @@ app.put('/posts/:id', setUser, async(req,res,next)=>{
                     const post = await Post.findByPk(req.params.id)
                     if(!post){
                         res.sendStatus(404)
-                    }else if(post.userId!== req.user.id && !req.user.isAdmin){
+                    }else if(post.userId !== req.user.id && !req.user.isAdmin){
                         res.sendStatus(403)
             }else{
                 await post.update({title,image,country,city,description})
