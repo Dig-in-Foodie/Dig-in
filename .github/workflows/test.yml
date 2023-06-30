@@ -11,8 +11,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16.x
-      - run: npm ci
-      - run: cd server/ && npm test -v  
+      - run:  npm test -- /server/index.test.js
 
        
         
