@@ -3,10 +3,20 @@ on:
   push:
     branches: [ main ]
 jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout git repo"
+        uses: actions/checkout@v3
+      - name: "install dependencies"
+        run: npm install
+      - name: 'test code'
+        run: cd server/ && npm test -v  
   build:
     name: Build and Deploy
-    needs: test
     runs-on: ubuntu-latest
+    needs: test
     steps: 
       - name: Checkout
         uses: actions/checkout@v3
