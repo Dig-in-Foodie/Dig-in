@@ -247,3 +247,5 @@ app.listen(PORT, () =>{
     sequelize.sync({force: false})
     console.log(`Food is ready ! at http://localhost:${PORT}`);
 });
+
+module.exports = app
