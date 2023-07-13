@@ -1,9 +1,11 @@
 import React from  'react';
+import { HomePage } from "./components/HomePage";
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 function App() {
   return(
-    <div>
-      <p>Dig in</p>
+    <div className='App'>
+      <HomePage />
     </div>
   )
   

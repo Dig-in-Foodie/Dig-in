@@ -10,4 +10,4 @@ RUN npm install && npm run build
 
 EXPOSE 3000
 
-CMD [ "node", "index.js" ]
+CMD [ "npm", "start" ]
