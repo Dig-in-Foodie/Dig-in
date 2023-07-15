@@ -5,17 +5,19 @@ import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 
  function CustomNav(){
-   const [showModal, setShowModal] = useState(false);
-   const [formType, setFormType] = useState('');
+    const [formType, setFormType] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-   const handleCloseModal =() =>{
-      setShowModal(false);
-   }
+   
 
    const handleShowModal = (type)=>{
-      setShowModal(true)
       setFormType(type)
+      setIsModalOpen(true)
    };
+
+   const handleCloseModal =() =>{
+      setIsModalOpen(false);
+   }
    const renderForm =()=>{
       if(formType === 'login'){
          return <LoginForm handleCloseModal={handleCloseModal}/>
@@ -43,13 +45,15 @@ import RegisterForm from './RegisterForm';
          <Navbar.Toggle aria-controls='basic-navbar-nav'/>
          <Navbar.Collapse id='basic-navbar-nav' className='justify-content-end'>
             <Nav className='ml-auto'>
-               <Nav.Link  style={{color: 'white'}} onClick={handleShowModal}>Login</Nav.Link>
-               <Nav.Link style={{color: 'white'}} onClick={handleShowModal}>Register</Nav.Link>
+               <Nav.Link  style={{color: 'white'}} onClick={()=> handleShowModal('login')}>Login</Nav.Link>
+               
+               
+               <Nav.Link style={{color: 'white'}} onClick={()=> handleShowModal('register')}>Register</Nav.Link> 
             </Nav>
          </Navbar.Collapse>
       </Navbar>
 
-      <Modal show={showModal} onHide={handleCloseModal}>
+      <Modal show={isModalOpen} onHide={handleCloseModal}>
          <Modal.Header closeButton>
             <Modal.Title>{formType === 'login' ? 'Login' : 'Register'}</Modal.Title>
          </Modal.Header>

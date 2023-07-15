@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {Form, Button} from 'react-bootstrap'
 
 const LoginForm =({handleCloseModal})=>{
-    const [email,setEmail]= useState('')
+    const [username,setUsername]= useState('')
     const [password,setPassword]= useState('');
 
     const handleSubmit = async (e) =>{
@@ -15,7 +15,7 @@ const LoginForm =({handleCloseModal})=>{
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    email,
+                    username,
                     password,
                 }),
             })
@@ -33,15 +33,15 @@ const LoginForm =({handleCloseModal})=>{
 
 
         //reset the form fields
-        setEmail('')
+        setUsername('')
         setPassword('')
     }
 
     return (
         <Form onSubmit={handleSubmit}>
             <Form.Group controlId="login-form-email">
-                <Form.Label>Email Address</Form.Label>
-                <Form.Control type="email" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)}/>
+                <Form.Label>Username</Form.Label>
+                <Form.Control type="text" placeholder="Enter username" value={username} onChange={(e) => setUsername(e.target.value)}/>
             </Form.Group>
 
             <Form.Group controlId="login-form-password">
