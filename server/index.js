@@ -15,9 +15,9 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
 
-app.get('/' , (req,res)=>{
-    res.json({message: "Hello foodie !"})
-})
+// app.get('/' , (req,res)=>{
+//     res.json({message: "Hello foodie !"})
+// })
 
 //register form
 app.get('/register', async(req,res,next)=>{
@@ -57,13 +57,7 @@ const admin = (req,res,next)=>{
   //dashboard page once logged in
 
   app.get('/dashboard',setUser,async(req,res,next)=>{
-    try{
-        const {token} = req.query
-       
-    }catch(error){
-        console.log(error)
-        next(error)
-    }
+    res.sendFile(path.join(__dirname,'public','index.html'))
     
 
 })
@@ -144,8 +138,12 @@ app.post('/users', setUser, admin, async (req, res, next) => {
 
 //get all posts in dashboard once logged in 
 app.get('/posts', setUser, async(req,res,next)=>{
+    try{
     const postsall = await Post.findAll(); 
     res.send(postsall)
+    }catch(error){
+        next(error)
+    }
 //     try{
        
 //     if(req.user){
