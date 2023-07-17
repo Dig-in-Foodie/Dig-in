@@ -76,7 +76,7 @@ app.post("/register", async(req,res,next)=>{
                 res.sendStatus(401)
             }else{
               const token= jwt.sign({username, id:foundUser.id, isAdmin: foundUser.isAdmin},JWT_SECRET)
-        res.send({ message: 'Welcome to Dig in ', token: token})
+        res.send({ message: 'Welcome to Dig in ', token: token, userId:foundUser.id})
       
       
       
@@ -150,14 +150,20 @@ app.get('/posts', setUser, async(req,res,next)=>{
 
 app.get('/posts/:id',setUser, async(req,res,next)=>{
     try{
-        const post = await Post.findByPk(req.params.id)
-        if(!req.user){
-            res.sendStatus(401)
-        }else if(req.user.id !== post.userId){
+        if(!req.user || req.user.id !== req.params.id){
             res.sendStatus(401)
         }else{
-            res.json({title: post.title, image: post.image, country: post.country, city: post.city, description: post.description})
+            const posts = await Post.findAll({where: { userId: req.user.id} });
+            res.json(posts)
         }
+        // const post = await Post.findByPk(req.params.id)
+        // if(!req.user){
+        //     res.sendStatus(401)
+        // }else if(req.user.id !== post.userId){
+        //     res.sendStatus(401)
+        // }else{
+        //     res.json({title: post.title, image: post.image, country: post.country, city: post.city, description: post.description})
+        // }
     }catch(error){
         next(error)
     }
