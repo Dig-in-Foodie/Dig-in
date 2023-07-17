@@ -15,21 +15,6 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
 
-// app.get('/' , (req,res)=>{
-//     res.json({message: "Hello foodie !"})
-// })
-
-// //register form
-// app.get('/register', async(req,res,next)=>{
-    
-//    //add here logic to which page to send in react
-// })
-
-// // login form
-// app.get('/login', async(req,res,next)=>{
-//     // add here logic to which page to send 
-// })
-
 //authorization middleware
 const setUser =(async (req,res,next)=>{
     const auth = req.header('Authorization')
@@ -102,16 +87,16 @@ app.post("/register", async(req,res,next)=>{
   }
 })
 
-//route that will log out from navbar
-app.get('/logout',async(req,res,next)=>{
-    try{
-        req.user = null
-        res.clearCookie('token')
-        res.redirect('/')
-    }catch(error){
-        next(error)
-    }
-})
+// //route that will log out from navbar
+// app.get('/logout',async(req,res,next)=>{
+//     try{
+//         req.user = null
+//         res.clearCookie('token')
+//         res.redirect('/')
+//     }catch(error){
+//         next(error)
+//     }
+// })
 
 //create users as administrator.
 app.post('/users', setUser, admin, async (req, res, next) => {
@@ -187,7 +172,7 @@ app.post('/posts',setUser, async(req,res,next)=>{
         }else{
             const {title, image , country, city, description}= req.body
             const post = await Post.create({userId: req.user.id, title,image,country,city,description})
-            res.sendStatus(201)({title: post.title, image: post.image, country: post.country, city: post.city, description: post.description})
+            res.sendStatus(201).json({title: post.title, image: post.image, country: post.country, city: post.city, description: post.description})
         }
     }catch(error){
         next(error)

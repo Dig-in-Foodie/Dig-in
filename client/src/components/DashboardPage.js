@@ -19,7 +19,14 @@ const DashboardPage =()=>{
 
     const fetchFoodiePosts = async () =>{
         try{
-            const response = await fetch('/posts')
+            const token = localStorage.getItem('token')
+            const response = await fetch('/posts', {
+
+                headers: {
+                    'Authorization': `Bearer ${token}`
+    
+                }
+            })
             const posts = await response.json();
             setFoodiePosts(posts)
         }catch(error){
@@ -41,10 +48,12 @@ const DashboardPage =()=>{
 
     const handleCreateFoodie = async ()=>{
         try{
+            const token = localStorage.getItem('token');
             const response = await fetch('/posts',{
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify(foodieData),
             });
