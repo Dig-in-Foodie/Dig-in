@@ -19,16 +19,16 @@ app.use(express.urlencoded({extended:true}));
 //     res.json({message: "Hello foodie !"})
 // })
 
-//register form
-app.get('/register', async(req,res,next)=>{
+// //register form
+// app.get('/register', async(req,res,next)=>{
     
-   //add here logic to which page to send in react
-})
+//    //add here logic to which page to send in react
+// })
 
-// login form
-app.get('/login', async(req,res,next)=>{
-    // add here logic to which page to send 
-})
+// // login form
+// app.get('/login', async(req,res,next)=>{
+//     // add here logic to which page to send 
+// })
 
 //authorization middleware
 const setUser =(async (req,res,next)=>{
@@ -183,7 +183,7 @@ app.get('/posts/:id',setUser, async(req,res,next)=>{
 app.post('/posts',setUser, async(req,res,next)=>{
     try{
         if(!req.user){
-            res.send(401)
+            res.sendStatus(401)
         }else{
             const {title, image , country, city, description}= req.body
             const post = await Post.create({userId: req.user.id, title,image,country,city,description})
