@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import {Form, Button} from 'react-bootstrap'
+import { useNavigate } from "react-router-dom";
 
-const RegisterForm = ({handleClosetModal}) =>{
+const RegisterForm = ({handleCloseModal}) =>{
+    const navigate =  useNavigate()
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
@@ -12,7 +14,7 @@ const RegisterForm = ({handleClosetModal}) =>{
         try{
             const response = await fetch('/register',{
                 method:'POST',
-                header: {
+                headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
@@ -23,7 +25,8 @@ const RegisterForm = ({handleClosetModal}) =>{
             if(response.ok){
                 const data = await response.json();
                 console.log(data)
-                handleClosetModal()
+                handleCloseModal()
+                navigate('/dashboard')
             }else{
                 console.log('Registration failed')
             }

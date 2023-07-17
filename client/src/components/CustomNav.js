@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
 import { Navbar, Nav , Modal, Button} from 'react-bootstrap'
+import { useNavigate, useLocation } from 'react-router-dom';
 import logoimg from '../image/logo dig in.png'
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 
+
  function CustomNav(){
+   const location = useLocation()
+   const navigate = useNavigate()
     const [formType, setFormType] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -18,14 +22,41 @@ import RegisterForm from './RegisterForm';
    const handleCloseModal =() =>{
       setIsModalOpen(false);
    }
+   const handleLogout = () =>{
+      navigate('/') //redirect to homepage
+   }
+
+   const renderNavLinks = () =>{
+      if(location.pathname === '/dashboard'){
+      return (
+         <Nav.Link style={{color: 'white'}} onClick={handleLogout}>
+            Logout
+         </Nav.Link>
+      )
+   }else{
+      return (
+         <>
+         <Nav.Link style={{color: 'white'}} onClick={()=> handleShowModal('login')}>
+         Login
+         </Nav.Link>
+
+         <Nav.Link style={{color: 'white'}} onClick={()=> handleShowModal('register')}>
+         Register
+         </Nav.Link>
+         </>
+      );
+   }
+   
+   };
    const renderForm =()=>{
       if(formType === 'login'){
-         return <LoginForm handleCloseModal={handleCloseModal}/>
+         return <LoginForm handleCloseModal={handleCloseModal} />
             }else if(formType === 'register'){
                return <RegisterForm  handleCloseModal={handleCloseModal}/>;
             }
             return  null
    };
+
 
     return(
       <>
@@ -45,10 +76,12 @@ import RegisterForm from './RegisterForm';
          <Navbar.Toggle aria-controls='basic-navbar-nav'/>
          <Navbar.Collapse id='basic-navbar-nav' className='justify-content-end'>
             <Nav className='ml-auto'>
-               <Nav.Link  style={{color: 'white'}} onClick={()=> handleShowModal('login')}>Login</Nav.Link>
+               {renderNavLinks()}
+               
+               {/* <Nav.Link  style={{color: 'white'}} onClick={()=> handleShowModal('login')}>Login</Nav.Link>
                
                
-               <Nav.Link style={{color: 'white'}} onClick={()=> handleShowModal('register')}>Register</Nav.Link> 
+               <Nav.Link style={{color: 'white'}} onClick={()=> handleShowModal('register')}>Register</Nav.Link>  */}
             </Nav>
          </Navbar.Collapse>
       </Navbar>

@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import {Form, Button} from 'react-bootstrap'
+import {useNavigate} from 'react-router-dom'
 
 const LoginForm =({handleCloseModal})=>{
+    const navigate = useNavigate()
     const [username,setUsername]= useState('')
     const [password,setPassword]= useState('');
 
     const handleSubmit = async (e) =>{
         e.preventDefault()
         // add here the login form submission logic from back end
-        let response;
-        fetch('/login',{
+        try{
+        const response = await fetch('/login',{
                 method: 'POST',
                 headers:{
                     'Content-Type': 'application/json'
@@ -18,18 +20,20 @@ const LoginForm =({handleCloseModal})=>{
                     username,
                     password,
                 }),
-            })
-            .then((res)=>{
-                response= res;
-                return res.json()
-            })
-            .then((data)=>{
+            });
+
+            if (response.ok){
+                const data= await response.json()
                 console.log(data)
                 handleCloseModal()
-            })
-            .catch((error)=>{
-                    console.error(error)
-                })
+                navigate('/dashboard'); //to redirect to dashboard page
+            }else{
+                console.log('Login failed')
+            }
+        }catch(error){
+            console.error(error)
+        }
+           
 
 
         //reset the form fields
