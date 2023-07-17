@@ -23,6 +23,8 @@ import RegisterForm from './RegisterForm';
       setIsModalOpen(false);
    }
    const handleLogout = () =>{
+      localStorage.removeItem('token')
+      localStorage.removeItem('userId')
       navigate('/') //redirect to homepage
    }
 

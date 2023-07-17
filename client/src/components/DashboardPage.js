@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from 'react'
 import {Button, Card,Modal, Form, Row} from 'react-bootstrap'
+import { Link, useNavigate } from 'react-router-dom';
 import CustomNav from './CustomNav'
 
 const DashboardPage =()=>{
+    const navigate = useNavigate()
     const [showModal, setShowModal] = useState(false)
     const [foodiePosts, setFoodiePosts]= useState([])
     const [foodieData, setFoodieData] = useState({
@@ -14,8 +16,13 @@ const DashboardPage =()=>{
     })
 
     useEffect(()=>{
+        if(!localStorage.getItem('token')){
+            navigate('/')
+            alert('You need to be signed in')
+        }else{
         fetchFoodiePosts();
-    }, []);
+        }
+    }, [navigate]);
 
     const fetchFoodiePosts = async () =>{
         try{
@@ -27,13 +34,16 @@ const DashboardPage =()=>{
     
                 }
             })
+            if(response.ok){
             const posts = await response.json();
             setFoodiePosts(posts)
-        }catch(error){
-            console.error(error)
+        }else{
+            console.log('Failed to fetch foodies')
         }
+    }catch(error){
+        console.error(error)
+    }
     };
-
     const handleCloseModal = ()=>{
         setShowModal(false)
     };
@@ -90,6 +100,11 @@ const DashboardPage =()=>{
             <Button variant='secondary' style={{margin:20}} onClick={handleShowModal}>
                 Create your foodie post
             </Button>
+
+            <div>
+        <Button variant='secondary' style={{margin: 20}} as={Link} to='/my-posts'>
+            My posts
+        </Button>
 
             <Modal show={showModal} onHide={handleCloseModal}>
                 <Modal.Header closeButton>
@@ -176,6 +191,8 @@ const DashboardPage =()=>{
             ))}
             </Row>
         </div>
+    </div>
+    
     </div>
     );
 };

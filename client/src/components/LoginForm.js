@@ -26,6 +26,8 @@ const LoginForm =({handleCloseModal})=>{
                 const data= await response.json()
                 console.log(data)
                 localStorage.setItem('token', data.token)
+                localStorage.setItem('userId',data.userId)
+                console.log(data)
                 handleCloseModal()
                 navigate('/dashboard'); //to redirect to dashboard page
             }else{
