@@ -118,7 +118,7 @@ const DashboardPage =()=>{
         
         <div>
             <div className='dashboard-name'>
-            <h1 style={{color: 'white', margin:20}}>Welcome to the foodie dashboard !</h1>
+            <h1 style={{color: 'white', margin:20}}>Welcome to the foodie dshboard !</h1>
 
             </div>
 
