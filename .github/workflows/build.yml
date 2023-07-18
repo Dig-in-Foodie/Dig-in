@@ -20,21 +20,13 @@ jobs:
     runs-on: ubuntu-latest
     needs: test
     steps: 
-      - name: Checkout
+      - name: Checkout 
         uses: actions/checkout@v3
-      - name: use Node 16
-        uses: actions/setup-node@v3
         with:
           node-version: 16.x
-      - name: Install Netlify netlify/actions/cli
-        run: npm install -g netlify-cli
-      - name: Install back end deps
-        run: cd server/ && npm install
-      - name: Install frontend deps
-        run: cd client/ && npm install
-        env: 
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-      - name: Deploy
-        run: netlify deploy --alias dev
-        env: 
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      - name: Install Render CLI
+        run: npm i -g @render/cli
+      - name: Deploy to Render
+        run: render deploy -- --build-command "npm run build"
+        env:
+          RENDER_TOKEN: ${{ secrets.RENDER_TOKEN}}

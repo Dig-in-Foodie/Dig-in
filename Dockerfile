@@ -1,13 +1,17 @@
-FROM node:16-alpine
+FROM node:16
 
-ENV NODE_ENV=production
+# ENV NODE_ENV=production
 
 WORKDIR /app
 
-COPY . /app
+COPY package* .json ./
 
-RUN npm install && npm run build
+RUN npm ci
 
+COPY server/ ./server/
+COPY client/ .client/
 
+RUN cd server/ && npm run build
+RUN cd client/ && npm run build
 
-CMD [ "npm", "start" ]
+CMD cd client/ && npm start
