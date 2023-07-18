@@ -28,8 +28,10 @@ jobs:
           node-version: 16.x
       - name: Install Netlify netlify/actions/cli
         run: npm install -g netlify-cli
-      - name: Install deps
-        run: npm install
+      - name: Install back end deps
+        run: cd server/ && npm install
+      - name: Install frontend deps
+        run: cd client/ && npm install
         env: 
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
       - name: Deploy
