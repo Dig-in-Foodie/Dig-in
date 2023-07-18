@@ -1,17 +1,38 @@
-FROM node:16
+# Stage 1: Build the frontend 
+FROM node:16 as frontend 
 
-# ENV NODE_ENV=production
+WORKDIR /app/client 
 
-WORKDIR /app
+COPY client/package*.json ./ 
 
-COPY package* .json ./
+RUN npm install 
 
-RUN npm ci
+COPY client/ ./ 
 
-COPY server/ ./server/
-COPY client/ .client/
+RUN npm run build 
 
-RUN cd server/ && npm run build
-RUN cd client/ && npm run build
+# Stage 2: Build the backend 
+FROM node:16-alpine as backend 
 
-CMD cd client/ && npm start
+WORKDIR /app/server 
+
+COPY server/package*.json ./ 
+
+RUN npm install 
+
+COPY server/ ./ 
+
+RUN npm run build 
+# Stage 3: Combine frontend and backend 
+FROM node:16-alpine 
+
+WORKDIR /app 
+
+COPY --from=frontend /app/client/build ./client/build 
+
+COPY --from=backend /app/server/build ./server/build 
+
+EXPOSE 3000
+
+EXPOSE 5000 
+CMD ["npm", "start"]
