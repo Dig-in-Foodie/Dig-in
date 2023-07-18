@@ -1,0 +1,12 @@
+{
+  "name": "dig-in",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start-app": "(cd client/ && npm run start) & (cd server/ && node index.js)"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
