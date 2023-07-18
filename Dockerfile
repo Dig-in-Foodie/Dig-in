@@ -1,16 +1,3 @@
-# Stage 1: Build the frontend 
-FROM node:16 as frontend 
-
-WORKDIR /app/client 
-
-COPY client/package*.json ./ 
-
-RUN npm install 
-
-COPY client/ ./ 
-
-RUN npm run build 
-
 # Stage 2: Build the backend 
 FROM node:16-alpine as backend 
 
@@ -22,7 +9,21 @@ RUN npm install
 
 COPY server/ ./ 
 
-RUN npm run build 
+RUN npm run start
+# Stage 1: Build the frontend 
+FROM node:16 as frontend 
+
+WORKDIR /app/client 
+
+COPY client/package*.json ./ 
+
+RUN npm install 
+
+COPY client/ ./ 
+
+RUN npm run start
+
+
 # Stage 3: Combine frontend and backend 
 FROM node:16-alpine 
 
