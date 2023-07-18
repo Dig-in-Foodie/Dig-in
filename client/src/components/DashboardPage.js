@@ -84,6 +84,31 @@ const DashboardPage =()=>{
             console.error(error)
         }
     };
+
+    // const handleDeleteFoodie  = async(postId)=>{
+    //     try{
+    //         const token= localStorage.getItem('token')
+    //         const response = await fetch(`/posts/${postId}`,{
+    //             method: 'DELETE',
+    //             headers: {
+    //                 Authorization: `Bearer ${token}`,
+    //             }
+    //         });
+
+    //         if(response.ok){
+    //             fetchFoodiePosts()
+    //         }else if(response.status === 401){
+    //             const errorData = await response.json()
+    //             alert(errorData.message)
+    //         }else{
+    //             console.log('Failed to delete the foodie post')
+    //         }
+    //     }catch(error){
+    //         console.error(error)
+    //     }
+    // };
+
+
   
 
 
@@ -101,10 +126,10 @@ const DashboardPage =()=>{
                 Create your foodie post
             </Button>
 
-            <div>
+            {/* <div>
         <Button variant='secondary' style={{margin: 20}} as={Link} to='/my-posts'>
             My posts
-        </Button>
+        </Button> */}
 
             <Modal show={showModal} onHide={handleCloseModal}>
                 <Modal.Header closeButton>
@@ -184,6 +209,13 @@ const DashboardPage =()=>{
                             {post.country},{post.city}
                         </Card.Subtitle>
                         <Card.Text>{post.description}</Card.Text>
+                        {/* {post.userId === localStorage.getItem('userId') && (
+                            <div>
+                                <Button variant='danger' onClick={()=> handleDeleteFoodie(post.id)}>
+                                    Delete
+                                </Button>
+                            </div>
+                        )} */}
                     </Card.Body>
                 </Card>
                 </div>
@@ -193,7 +225,7 @@ const DashboardPage =()=>{
         </div>
     </div>
     
-    </div>
+    // </div>
     );
 };
 
