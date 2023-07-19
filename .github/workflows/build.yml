@@ -33,6 +33,10 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16.x
+      - name: Install render CLI
+        run: npm install -g @render/cli
+      - name: Verify render CLI installation
+        run: render --version
       - name: Build and deploy to Render
         run: |
           cd client/
