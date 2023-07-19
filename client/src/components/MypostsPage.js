@@ -17,7 +17,7 @@ const MyPostPage = ()=>{
             //         'Authorization' : `Bearer ${token}`
             //     },
             // });
-            // console.log(response)
+            // console.log(response) tral 
             if(response.ok){
                 const posts= await response.json();
                 setUserPosts(posts)
