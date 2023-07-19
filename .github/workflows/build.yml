@@ -33,8 +33,10 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16.x
-      - name: Install render CLI
-        run: curl -sL https://render.com/install | sh
+      - name: Install render CLI part1
+        run: brew tap render-oss/render
+      - name: Install render Cli
+        run: brew install render
       - name: Verify render CLI installation
         run: render --version
       - name: Build and deploy to Render
