@@ -9,24 +9,37 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16.x
-      - run: cd server/ && npm test -v  
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: Set up node js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16.x
+    - name: Install dependencies and run tests
+      run: |
+       cd server/
+       npm install
+       npm test -v  
+          
 
   build:
     name: Build and Deploy
     runs-on: ubuntu-latest
     needs: test
     steps: 
-      - name: Checkout 
+      - name: Checkout code
         uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
           node-version: 16.x
-      - name: Install Render CLI
-        run: npm i -g @render/cli
-      - name: Deploy to Render
-        run: render deploy -- --build-command "npm run build"
+      - name: Build and deploy to Render
+        run: |
+          cd client/
+          npm install
+          npm run build
+          cd ../server/
+          npm install
+          render deploy --build-command "npm run build"
         env:
           RENDER_TOKEN: ${{ secrets.RENDER_TOKEN}}

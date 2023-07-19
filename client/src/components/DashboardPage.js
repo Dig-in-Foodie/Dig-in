@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {Button, Card,Modal, Form, Row} from 'react-bootstrap'
-import { Link, useNavigate } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
 import CustomNav from './CustomNav'
 
 const DashboardPage =()=>{
