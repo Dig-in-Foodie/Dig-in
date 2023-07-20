@@ -39,13 +39,7 @@ const admin = (req,res,next)=>{
     }
   }
 
-  //dashboard page once logged in
-
-  app.get('/dashboard',setUser,async(req,res,next)=>{
-    res.sendFile(path.join(__dirname,'public','index.html'))
-    
-
-})
+ 
 //post register
 app.post("/register", async(req,res,next)=>{
     try{
@@ -150,20 +144,20 @@ app.get('/posts', setUser, async(req,res,next)=>{
 
 app.get('/posts/:id',setUser, async(req,res,next)=>{
     try{
-        // if(!req.user || req.user.id !== req.params.id){
-        //     res.sendStatus(401)
-        // }else{
-        //     const posts = await Post.findAll({where: { userId: req.user.id} });
-        //     res.json(posts)
-        // }
-        const post = await Post.findByPk(req.params.id)
-        if(!req.user){
-            res.sendStatus(401)
-        }else if(req.user.id !== post.userId){
+        if(!req.user || req.user.id !== req.params.id){
             res.sendStatus(401)
         }else{
-            res.json({title: post.title, image: post.image, country: post.country, city: post.city, description: post.description})
+            const posts = await Post.findAll({where: { userId: req.user.id} });
+            res.json(posts)
         }
+        // const post = await Post.findByPk(req.params.id)
+        // if(!req.user){
+        //     res.sendStatus(401)
+        // }else if(req.user.id !== post.userId){
+        //     res.sendStatus(401)
+        // }else{
+        //     res.json({title: post.title, image: post.image, country: post.country, city: post.city, description: post.description})
+        // }
     }catch(error){
         next(error)
     }
