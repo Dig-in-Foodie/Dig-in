@@ -1,4 +1,4 @@
-import React from  'react';
+import React, {useEffect, useState} from  'react';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 import { HomePage } from "./components/HomePage";
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -7,7 +7,17 @@ import DashboardPage from './components/DashboardPage';
 
 
 function App() {
+  const [dataf, setDataf] = useState([]);
+
+  useEffect(() => {
+    fetch("https://dig-in.onrender.com")
+      .then((res) => res.json())
+      .then((data) => setDataf(data.dataf));
+  }, []);
+
   return(
+    <>
+    {dataf}
     <Router>
     
       <Routes>
@@ -18,7 +28,7 @@ function App() {
     </Router>
    
 
-    
+    </>
   )
   
 }
