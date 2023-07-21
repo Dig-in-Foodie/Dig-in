@@ -35,7 +35,7 @@ const LoginForm =({handleCloseModal})=>{
                 console.log('Login failed:', errorData.message)
             }
         }catch(error){
-            console.error(error)
+            next(error)
         }
            
 
