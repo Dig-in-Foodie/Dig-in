@@ -62,7 +62,7 @@ app.post("/register", async(req,res,next)=>{
         const user = await User.create({username,password:hash})
         const token = jwt.sign({username, id:user.id, isAdmin: user.isAdmin}, JWT_SECRET)
         
-        res.send({message:"foodie registered", token: token})
+        res.json({message:"foodie registered", token: token})
         //add here res.json to connect with react
       
     }catch(error){
