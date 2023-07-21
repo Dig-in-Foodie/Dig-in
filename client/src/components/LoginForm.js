@@ -20,9 +20,14 @@ const LoginForm =({handleCloseModal})=>{
                     username,
                     password,
                 }),
+                mode:'cors'
             });
 
-            if (response.ok){
+            if (!response.ok){
+                const errorData = await response.json()
+                console.log('Login failed:', errorData.message)
+                
+            }else{
                 const data= await response.json()
                 console.log(data)
                 localStorage.setItem('token', data.token)
@@ -30,9 +35,6 @@ const LoginForm =({handleCloseModal})=>{
                 console.log(data)
                 handleCloseModal()
                 navigate('/dashboard'); //to redirect to dashboard page
-            }else{
-                const errorData = await response.json()
-                console.log('Login failed:', errorData.message)
             }
         }catch(error){
         console.log(error)
