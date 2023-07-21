@@ -20,7 +20,7 @@ const LoginForm =({handleCloseModal})=>{
                     username,
                     password,
                 }),
-                mode:'cors'
+                // mode:'cors'
             });
 
             if (!response.ok){
@@ -35,7 +35,9 @@ const LoginForm =({handleCloseModal})=>{
                 console.log(data)
                 handleCloseModal()
                 navigate('/dashboard'); //to redirect to dashboard page
+                return data ? data.token:{}
             }
+            
         }catch(error){
         console.log(error)
         }
