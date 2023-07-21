@@ -13,12 +13,12 @@ const path= require("path")
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-app.use(express.static("public"))
+app.use(express.static(path.join(__dirname,"../client/public")))
 
 
 app.get('/', async (req,res,next)=>{
     try{
-        res.sendFile(path.join(__dirname,"public", "index.html"));
+        res.sendFile(path.join(__dirname,"../client/public", "index.html"));
     }catch(error){
         console.error(error)
         next(error)
