@@ -22,7 +22,7 @@ const LoginForm =({handleCloseModal})=>{
                 }),
                 // mode:'cors'
             });
-
+            console.log(response)
             if (!response.ok){
                 const errorData = await response.json()
                 console.log('Login failed:', errorData.message)

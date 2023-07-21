@@ -10,7 +10,10 @@ const path= require("path")
 
 
 //middleware
-app.use(cors());
+app.use(cors({
+    origin: 'https://digin-f.onrender.com',
+    credentials:true,
+}));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(express.static(path.join(__dirname,"../client/public")))
