@@ -20,7 +20,7 @@ const LoginForm =({handleCloseModal})=>{
                     username,
                     password,
                 }),
-                mode:'no-cors'
+                // mode:'cors'
             });
             console.log(response)
             if (!response.ok){
@@ -28,8 +28,10 @@ const LoginForm =({handleCloseModal})=>{
                 console.log('Login failed:', errorData.message)
                 
             }else{
-                const parsedResponse = JSON.parse(response)
-                const data= await parsedResponse.json()
+                // const parsedResponse = JSON.parse(response)
+                // const data= await parsedResponse.json()
+                const data= await response.json()
+
                 localStorage.setItem('token', data.token)
                 localStorage.setItem('userId',data.userId)
                 console.log(data)
