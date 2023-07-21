@@ -13,6 +13,17 @@ const path= require("path")
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
+app.use(express.static("public"))
+
+
+app.get('/', async (req,res,next)=>{
+    try{
+        res.sendFile(path.join(__dirname,"public", "index.html"));
+    }catch(error){
+        console.error(error)
+        next(error)
+    }
+})
 
 
 //authorization middleware
