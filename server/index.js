@@ -74,11 +74,11 @@ app.post("/register", async(req,res,next)=>{
         const {username, password} = req.body
         const foundUser = await User.findOne({where:{username}})
         if(!foundUser){
-            res.sendStatus(401)
+            res.status(401).json({message:"Invalid Credentials"})
         }else{
             const isMatch = await bcrypt.compare(password, foundUser.password)
             if (!isMatch){
-                res.sendStatus(401)
+                res.status(401).json({message:"Invalid Credentials"})
             }else{
               const token= jwt.sign({username, id:foundUser.id, isAdmin: foundUser.isAdmin},JWT_SECRET)
         res.send({ message: 'Welcome to Dig in ', token: token, userId:foundUser.id})
