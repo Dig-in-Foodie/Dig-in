@@ -31,7 +31,8 @@ const LoginForm =({handleCloseModal})=>{
                 handleCloseModal()
                 navigate('/dashboard'); //to redirect to dashboard page
             }else{
-                console.log('Login failed')
+                const errorData = await response.json()
+                console.log('Login failed:', errorData.message)
             }
         }catch(error){
             console.error(error)
