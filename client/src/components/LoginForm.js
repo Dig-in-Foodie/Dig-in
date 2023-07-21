@@ -29,7 +29,6 @@ const LoginForm =({handleCloseModal})=>{
                 
             }else{
                 const data= await response.json()
-                console.log(data)
                 localStorage.setItem('token', data.token)
                 localStorage.setItem('userId',data.userId)
                 console.log(data)
