@@ -27,7 +27,7 @@ const DashboardPage =()=>{
     const fetchFoodiePosts = async () =>{
         try{
             const token = localStorage.getItem('token')
-            const response = await fetch('/posts', {
+            const response = await fetch('https://dig-in.onrender.com/posts', {
 
                 headers: {
                     'Authorization': `Bearer ${token}`
