@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {Card} from 'react-bootstrap'
+import {Card, Button,Form, Row} from 'react-bootstrap'
 
 const MyPostPage = ()=>{
     const [userPosts, setUserPosts] = useState([])
@@ -34,7 +34,7 @@ const MyPostPage = ()=>{
             <Row>
             {userPosts.map((post)=>(
                 <div key={post.id}className ='col-lg-5 mb-4'>
-            )
+            
                 <Card style={{width: '100%', margin: 20}}>
                     <Card.Img variant="top" src={post.image}/>
                     <Card.Body>
