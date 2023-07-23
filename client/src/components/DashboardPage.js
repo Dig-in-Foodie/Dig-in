@@ -85,28 +85,6 @@ const DashboardPage =()=>{
         }
     };
 
-    // const handleDeleteFoodie  = async(postId)=>{
-    //     try{
-    //         const token= localStorage.getItem('token')
-    //         const response = await fetch(`/posts/${postId}`,{
-    //             method: 'DELETE',
-    //             headers: {
-    //                 Authorization: `Bearer ${token}`,
-    //             }
-    //         });
-
-    //         if(response.ok){
-    //             fetchFoodiePosts()
-    //         }else if(response.status === 401){
-    //             const errorData = await response.json()
-    //             alert(errorData.message)
-    //         }else{
-    //             console.log('Failed to delete the foodie post')
-    //         }
-    //     }catch(error){
-    //         console.error(error)
-    //     }
-    // };
 
 
   
