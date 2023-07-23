@@ -59,7 +59,7 @@ const DashboardPage =()=>{
     const handleCreateFoodie = async ()=>{
         try{
             const token = localStorage.getItem('token');
-            const response = await fetch('/posts',{
+            const response = await fetch('https://dig-in.onrender.com/posts',{
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -187,13 +187,7 @@ const DashboardPage =()=>{
                             {post.country},{post.city}
                         </Card.Subtitle>
                         <Card.Text>{post.description}</Card.Text>
-                        {/* {post.userId === localStorage.getItem('userId') && (
-                            <div>
-                                <Button variant='danger' onClick={()=> handleDeleteFoodie(post.id)}>
-                                    Delete
-                                </Button>
-                            </div>
-                        )} */}
+                      
                     </Card.Body>
                 </Card>
                 </div>
