@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import {Card, Button,Form, Row} from 'react-bootstrap'
+import { useNavigate } from "react-router-dom";
 
 const MyPostPage = ()=>{
     const [userPosts, setUserPosts] = useState([])
+    const navigate = useNavigate()
 
     useEffect(()=>{
         fetchUsersPosts()
@@ -28,9 +30,35 @@ const MyPostPage = ()=>{
             console.error(error)
         }
     };
+    //to delete post
+    const handleDeleteFoodie  = async(postId)=>{
+        try{
+            const token= localStorage.getItem('token')
+            const response = await fetch(`https://dig-in.onrender.com/posts/${postId}`,{
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+
+            if(response.ok){
+                fetchUsersPosts()
+            }else if(response.status === 401){
+                const errorData = await response.json()
+                alert(errorData.message)
+            }else{
+                console.log('Failed to delete the foodie post')
+            }
+        }catch(error){
+            console.error(error)
+        }
+    };
     return(
         <div>
             <h1 style={{color: 'white', margin: 20}}>My foodies</h1>
+            <Button variant="secondary" style={{margin:20}} onClick={()=> navigate('/dashboard')}>
+                Back to dashboard
+            </Button>
             <Row>
             {userPosts.map((post)=>(
                 <div key={post.id}className ='col-lg-5 mb-4'>
@@ -43,6 +71,13 @@ const MyPostPage = ()=>{
                             {post.country},{post.city}
                         </Card.Subtitle>
                         <Card.Text>{post.description}</Card.Text>
+                        {post.userId === localStorage.getItem('userId')&&(
+                            <div>
+                                <Button variant="danger" onClick={()=> handleDeleteFoodie(post.id)}>
+                                    Delete this Foodie
+                                </Button>
+                            </div>
+                        )}
                     </Card.Body>
                 </Card>
         </div>
