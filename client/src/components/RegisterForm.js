@@ -12,7 +12,7 @@ const RegisterForm = ({handleCloseModal}) =>{
         e.preventDefault();
         // handle register logic here
         try{
-            const response = await fetch('/register',{
+            const response = await fetch('https://dig-in.onrender.com/register',{
                 method:'POST',
                 headers: {
                     'Content-Type': 'application/json'
