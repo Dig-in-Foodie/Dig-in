@@ -126,10 +126,10 @@ const DashboardPage =()=>{
                 Create your foodie post
             </Button>
 
-            {/* <div>
+            <div>
         <Button variant='secondary' style={{margin: 20}} as={Link} to='/my-posts'>
             My posts
-        </Button> */}
+        </Button>
 
             <Modal show={showModal} onHide={handleCloseModal}>
                 <Modal.Header closeButton>

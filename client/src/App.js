@@ -15,7 +15,7 @@ function App() {
       <Routes>
         <Route path='/' element={<HomePage />} />
         <Route path='/dashboard' element={<DashboardPage />} />
-        {/* <Route path='/my-posts' element={<MyPostPage />}/> */}
+        <Route path='/my-posts' element={<MyPostPage />}/>
       </Routes>
     </Router>
    
