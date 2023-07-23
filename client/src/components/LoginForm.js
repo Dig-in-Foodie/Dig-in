@@ -11,16 +11,17 @@ const LoginForm =({handleCloseModal})=>{
         e.preventDefault()
         // add here the login form submission logic from back end
         try{
-        const response = await fetch('/login',{
+        const response = await fetch('https://dig-in.onrender.com/login',{
                 method: 'POST',
                 headers:{
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
                     username,
-                    password,
+                    password
+                    
                 }),
-                // mode:'cors'
+              
             });
             console.log(response)
             if (!response.ok){
@@ -28,16 +29,14 @@ const LoginForm =({handleCloseModal})=>{
                 console.log('Login failed:', errorData.message)
                 
             }else{
-                // const parsedResponse = JSON.parse(response)
-                // const data= await parsedResponse.json()
                 const data= await response.json()
-
+                console.log(data)
                 localStorage.setItem('token', data.token)
                 localStorage.setItem('userId',data.userId)
                 console.log(data)
                 handleCloseModal()
                 navigate('/dashboard'); //to redirect to dashboard page
-                return data ? data.token:{}
+                // return data ? data.token:{}
             }
             
         }catch(error){
